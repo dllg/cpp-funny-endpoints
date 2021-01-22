@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: Go Funny Endpoints API
+  description: Get funny text by interacting with this API
+  version: "0.1"
+paths:
+  /v1/advice/:
+    get:
+      summary: Returns an advice
+      description: Uses site [api.adviceslip.com](http://api.adviceslip.com/) to get the advice
+      responses:
+        '200':    # status code
+          description: Results after returning an advice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':    # status code
+          description: Access token is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':    # status code
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/chucknorris/:
+    get:
+      summary: Returns a Chuck Norris joke
+      description: Uses site [api.chucknorris.io](https://api.chucknorris.io) to get the joke
+      responses:
+        '200':    # status code
+          description: Results after returning an advice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':    # status code
+          description: Access token is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':    # status code
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/dadjoke/:
+    get:
+      summary: Returns a dad joke
+      description: Uses site [icanhazdadjoke.com](https://icanhazdadjoke.com/) to get the joke
+      responses:
+        '200':    # status code
+          description: Results after returning an advice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':    # status code
+          description: Access token is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':    # status code
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/random/:
+    get:
+      summary: Returns a random message
+      description: Will randomly return either an advice, chuck norris joke or a dad joke.
+      responses:
+        '200':    # status code
+          description: Results after returning an advice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':    # status code
+          description: Access token is missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':    # status code
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        message:
+            type: string
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+            required:
+              - code
+              - message

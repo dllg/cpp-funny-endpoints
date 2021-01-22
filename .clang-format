@@ -1,0 +1,6 @@
+BasedOnStyle: Google
+Language: Cpp
+BreakBeforeBraces: Allman
+IndentWidth: 4
+ContinuationIndentWidth: 2
+ColumnLimit: 110
