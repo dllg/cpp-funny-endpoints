@@ -7,14 +7,9 @@ Uses [conan](https://conan.io/) to handle dependencies and [cmake](https://cmake
 
 Testing is done using [gtest](https://github.com/google/googletest). Testing of the classes [Funny](./source/Funny.h) and [Service](./source/Service.h) are done using dependency injection. Mocking of the client and server classes are done using [googlemock](https://github.com/google/googletest/blob/master/docs/gmock_cook_book.md).
 
-The tests are run automatically after each build. You can also run them by invoking:
 
-```bash
-./build/bin/funnytests
-```
-
-## Building
-### Setup dependencies using Conan
+## Building locally
+### 1. Setup dependencies using Conan
 Make sure you have [conan](https://conan.io/):
 ```bash
 pip install conan
@@ -37,18 +32,41 @@ Create a build directory if you haven't already and initailize the dependencies:
 ```bash
 mkdir build
 cd build
-conan install ..
+conan install .. --build=missing
 cd ..
 ```
 
-## Building the application
+### 2. Building
 ```bash
 cmake --build build
 ```
 
-## Running the application
+### 3. Running
 ```bash
 ./build/bin/funny
+```
+
+### 4. Running the tests
+The tests are automatically run after each build. You can run them by invoking:
+```bash
+./build/bin/funnytests
+```
+
+## Building for docker
+### 1. Building the image
+```bash
+docker-compose build
+```
+
+### 2. Running the container
+```bash
+docker-compose up -d
+```
+
+### 3. Running the tests
+The tests are also run after building in docker. To run the tests in docker invoke:
+```bash
+docker run cpp-funny-endpoints funnytests
 ```
 
 ## Examples of using it

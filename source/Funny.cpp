@@ -20,7 +20,7 @@ std::string Funny::Advice()
         return r.dump();
     }
     spdlog::error("Failed to receive advice from {}.", url);
-    return "";
+    return "{}";
 }
 
 std::string Funny::ChuckNorrisJoke()
@@ -33,7 +33,7 @@ std::string Funny::ChuckNorrisJoke()
         return r.dump();
     }
     spdlog::error("Failed to receive chuck norris joke from {}.", url);
-    return "";
+    return "{}";
 }
 
 std::string Funny::DadJoke()
@@ -46,12 +46,12 @@ std::string Funny::DadJoke()
         return r.dump();
     }
     spdlog::error("Failed to receive dad joke from {}.", url);
-    return "";
+    return "{}";
 }
 
 std::string Funny::Message(size_t index)
 {
-    if (index >= 0 && index < _messagefuncs.size())
+    if (index < _messagefuncs.size())
     {
         nlohmann::json j = nlohmann::json::parse(_messagefuncs[index].func());
         nlohmann::json r = {{"message", _messagefuncs[index].name + ": " + j["message"].get<std::string>()}};
