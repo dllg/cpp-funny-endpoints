@@ -1,0 +1,9 @@
+[requires]
+nlohmann_json/3.9.1
+gtest/1.10.0
+spdlog/1.8.2
+uwebsockets/18.3.0
+cpr/1.5.2
+
+[generators]
+cmake

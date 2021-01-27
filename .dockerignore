@@ -1,0 +1,9 @@
+.vscode
+build
+.clang-format
+.gitignore
+docker-compose.yml
+Dockerfile
+LICENSE
+README.md
+swagger.yml

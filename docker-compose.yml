@@ -1,0 +1,8 @@
+version: '3.9'
+
+services:
+  cpp-funny-endpoints:
+    build: .
+    image: cpp-funny-endpoints
+    ports:
+      - "5000:5000"
