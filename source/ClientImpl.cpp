@@ -12,7 +12,7 @@ const std::string &ClientImpl::request(const std::string &url,
                                        const std::map<std::string, std::string> &headers)
 {
     spdlog::info("Sending request to {}.", url);
-    _response = "{}";
+    _response = "";
     auto h = cpr::Header();
     for (auto &&hh : headers)
     {

@@ -12,41 +12,17 @@ Funny::Funny(std::shared_ptr<IClient> client) : _client(client) {}
 
 std::string Funny::Advice()
 {
-    std::string url = "https://api.adviceslip.com/advice";
-    auto j = nlohmann::json::parse(_client->request(url, {}).c_str());
-    if (j.contains("slip") && j["slip"].contains("advice") && j["slip"]["advice"].is_string())
-    {
-        nlohmann::json r = {{"message", j["slip"]["advice"].get<std::string>()}};
-        return r.dump();
-    }
-    spdlog::error("Failed to receive advice from {}.", url);
-    return "{}";
+    return sendApiRequest("https://api.adviceslip.com/advice", {}, {"slip", "advice"});
 }
 
 std::string Funny::ChuckNorrisJoke()
 {
-    std::string url = "https://api.chucknorris.io/jokes/random";
-    auto j = nlohmann::json::parse(_client->request(url, {}).c_str());
-    if (j.contains("value") && j["value"].is_string())
-    {
-        nlohmann::json r = {{"message", j["value"].get<std::string>()}};
-        return r.dump();
-    }
-    spdlog::error("Failed to receive chuck norris joke from {}.", url);
-    return "{}";
+    return sendApiRequest("https://api.chucknorris.io/jokes/random", {}, {"value"});
 }
 
 std::string Funny::DadJoke()
 {
-    std::string url = "https://icanhazdadjoke.com/";
-    auto j = nlohmann::json::parse(_client->request(url, {{"Accept", "application/json"}}).c_str());
-    if (j.contains("joke") && j["joke"].is_string())
-    {
-        nlohmann::json r = {{"message", j["joke"].get<std::string>()}};
-        return r.dump();
-    }
-    spdlog::error("Failed to receive dad joke from {}.", url);
-    return "{}";
+    return sendApiRequest("https://icanhazdadjoke.com/", {{"Accept", "application/json"}}, {"joke"});
 }
 
 std::string Funny::Message(size_t index)
@@ -54,9 +30,13 @@ std::string Funny::Message(size_t index)
     if (index < _messagefuncs.size())
     {
         nlohmann::json j = nlohmann::json::parse(_messagefuncs[index].func());
-        nlohmann::json r = {{"message", _messagefuncs[index].name + ": " + j["message"].get<std::string>()}};
-
-        return r.dump();
+        if (j.contains("message"))
+        {
+            nlohmann::json r = {
+              {"message", _messagefuncs[index].name + ": " + j["message"].get<std::string>()}};
+            return r.dump();
+        }
+        return j.dump();
     }
     nlohmann::json r = {{"message", "Cannot find message with index " + std::to_string(index) + "."}};
     return r.dump();
@@ -70,4 +50,32 @@ std::string Funny::Random()
     std::uniform_int_distribution<int> distribution(0, _messagefuncs.size() - 1);
 
     return Message(distribution(e));
+}
+
+std::string Funny::sendApiRequest(const std::string &url, const std::map<std::string, std::string> &headers,
+                                  const std::vector<std::string> &keys)
+{
+    try
+    {
+        auto j = nlohmann::json::parse(_client->request(url, headers).c_str());
+        auto jj = j;
+        bool ok = true;
+        for (auto &&key : keys)
+        {
+            ok = ok && jj.contains(key) && (jj[key].is_object() || jj[key].is_string());
+            jj = jj[key];
+        }
+        if (ok)
+        {
+            nlohmann::json r = {{"message", jj.get<std::string>()}};
+            return r.dump();
+        }
+    }
+    catch (nlohmann::json::parse_error &)
+    {
+    }
+    std::string errmsg = "request failed to " + url + ".";
+    spdlog::error(errmsg);
+    nlohmann::json r = {{"error", errmsg}};
+    return r.dump();
 }

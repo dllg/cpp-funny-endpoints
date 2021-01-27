@@ -35,5 +35,8 @@ class Funny
       {"Chuck Norris Joke", [this]() { return ChuckNorrisJoke(); }},
       {"Dad Joke", [this]() { return DadJoke(); }},
     };
+
+    std::string sendApiRequest(const std::string &url, const std::map<std::string, std::string> &headers,
+                               const std::vector<std::string> &keys);
 };
 }  // namespace funny
