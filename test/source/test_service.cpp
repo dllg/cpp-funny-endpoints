@@ -78,7 +78,7 @@ std::vector<ServiceTestAPIStruct> const ServiceAPITestFormula = {
    [](std::shared_ptr<ClientMock> mock, const std::string &reply) {
        EXPECT_CALL(*mock, request(_, _)).Times(0);
    },
-   "Cannot find endpoint /bad/endpoint."},
+   "not found"},
   // ...
 };
 TEST_P(ServiceAPITest, Methods)

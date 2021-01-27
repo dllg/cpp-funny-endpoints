@@ -7,7 +7,20 @@ using namespace funny;
 bool ServerImpl::Init()
 {
     _app.reset(new uWS::App());
-    return !_app->constructorFailed();
+    if (_app->constructorFailed())
+    {
+        return false;
+    }
+
+    _app->any("/*", [](auto *res, auto *req) {
+        (void)req;
+        res->cork([res]() {
+            res->writeStatus("404 NOT FOUND")
+              ->writeHeader("Content-Type", "application/json")
+              ->end("{\"message\":\"not found\",\"code\":404}");
+        });
+    });
+    return true;
 }
 
 void ServerImpl::Get(const std::string &endpoint, const callback &getCallback)
