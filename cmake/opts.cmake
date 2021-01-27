@@ -10,7 +10,3 @@ endif()
 if (NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(compile_opts ${compile_opts} -pedantic)
 endif()
-
-set(defines
-    NOMINMAX
-)

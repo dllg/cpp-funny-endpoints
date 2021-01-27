@@ -6,5 +6,3 @@ services:
     image: cpp-funny-endpoints
     ports:
       - "5000:5000"
-volumes:
-  src:

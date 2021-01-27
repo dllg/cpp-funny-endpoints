@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-20.04, windows-2016]
+        include:
+        - os: macos-latest
+          CONAN_FLAGS: --build=missing
+        - os: ubuntu-20.04
+          CONAN_FLAGS: -s cppstd=17 -s compiler=gcc -s compiler.libcxx=libstdc++11 -o *:shared=False
+        - os: windows-2016
+          CONAN_FLAGS: --build=missing
+    steps:
+      - name: Get Conan
+        uses: turtlebrowser/get-conan@v1.0
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.6
+        with:
+            cmake-version: '3.17.x'
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: build and run tests
+        working-directory: .
+        run: |
+            mkdir -p build
+            cd build
+            conan install .. ${{ matrix.CONAN_FLAGS }}
+            cmake .. -DCMAKE_BUILD_TYPE=Release
+            cmake --build .
+      - uses: actions/upload-artifact@v2
+        with:
+          name: cpp-funny-endpoints
+          path: ./build/bin

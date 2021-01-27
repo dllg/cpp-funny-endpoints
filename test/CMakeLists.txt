@@ -31,8 +31,6 @@ endif()
 
 target_compile_options(${PROJECT_NAME} PUBLIC ${compile_opts})
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC ${defines})
-
 target_link_options(${PROJECT_NAME} PUBLIC ${link_opts})
 
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source>)
