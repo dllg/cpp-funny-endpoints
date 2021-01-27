@@ -1,3 +1,5 @@
+![CI](https://github.com/dllg/cpp-funny-endpoints/workflows/CI/badge.svg)
+
 # cpp-funny-endpoints
 Simple C++ application that interacts with different open api's to create text that you can receive on GET endpoints. See [swagger.yml](swagger.yml)
 
