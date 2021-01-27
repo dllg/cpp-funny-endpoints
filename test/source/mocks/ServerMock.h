@@ -28,7 +28,7 @@ class ServerMock final : public IServer
         {
             return f->second();
         }
-        nlohmann::json j = {{"message", "Cannot find endpoint " + endpoint + "."}};
+        nlohmann::json j = {{"message", "not found"}, {"code", 404}};
         return j.dump();
     }
 
