@@ -71,6 +71,9 @@ The tests are also run after building in docker. To run the tests in docker invo
 docker run cpp-funny-endpoints funnytests
 ```
 
+## Running in kubernetes
+See [k8s/README.md](./k8s/README.md).
+
 ## Examples of using it
 ### Get an advice
 ```bash
