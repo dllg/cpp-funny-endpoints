@@ -34,7 +34,8 @@ Create a build directory if you haven't already and initailize the dependencies:
 ```bash
 mkdir build
 cd build
-conan install .. --build=missing
+conan install .. -s cppstd=17 -s compiler.libcxx=libstdc++11 --build
+cmake .. -G Ninja
 cd ..
 ```
 
