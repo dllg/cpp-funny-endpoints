@@ -32,6 +32,8 @@ endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
+target_compile_definitions(${PROJECT_NAME} PUBLIC ${definitions})
+
 target_compile_options(${PROJECT_NAME} PUBLIC ${compile_opts})
 
 target_link_options(${PROJECT_NAME} PUBLIC ${link_opts})
