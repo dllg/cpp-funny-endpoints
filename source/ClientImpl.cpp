@@ -43,8 +43,7 @@ const std::string &ClientImpl::request(const std::string &url,
     httplib::Result r = c.Get(path.c_str(), h);
     if (r.error() != httplib::Error::Success)
     {
-        spdlog::error("Received {} with error {} after requesting to '{}'.", r.value().status,
-                      httplib::to_string(r.error()), url);
+        spdlog::error("Received error {} after requesting to '{}'.", httplib::to_string(r.error()), url);
         return _response;
     }
     _response = r.value().body;

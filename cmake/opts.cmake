@@ -10,3 +10,8 @@ endif()
 if (NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     set(compile_opts ${compile_opts} -pedantic)
 endif()
+
+set(definitions
+  CPPHTTPLIB_OPENSSL_SUPPORT=1
+  CPPHTTPLIB_NO_EXCEPTIONS=1
+)
