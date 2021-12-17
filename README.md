@@ -3,7 +3,7 @@
 # cpp-funny-endpoints
 Simple C++ application that interacts with different open api's to create text that you can receive on GET endpoints. See [swagger.yml](swagger.yml)
 
-Uses [conan](https://conan.io/) to handle dependencies and [cmake](https://cmake.org/) build system. It uses [nlohmann_json](https://github.com/nlohmann/json) for json, [uwebsockets](https://github.com/uNetworking/uWebSockets) for http server part, [cpr](https://github.com/whoshuu/cpr) for http client part, [spdlog](https://github.com/gabime/spdlog) for logging and [gtest](https://github.com/google/googletest) for testing.
+Uses [conan](https://conan.io/) to handle dependencies and [cmake](https://cmake.org/) build system. It uses [nlohmann_json](https://github.com/nlohmann/json) for json, [uwebsockets](https://github.com/uNetworking/uWebSockets) for http server part, [cpp-httplib](https://github.com/yhirose/cpp-httplib) for http client part, [spdlog](https://github.com/gabime/spdlog) for logging and [gtest](https://github.com/google/googletest) for testing.
 
 ## Testing
 
