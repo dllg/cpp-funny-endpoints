@@ -7,9 +7,9 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"
   endif()
 endif()
 
-if (NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
-    set(compile_opts ${compile_opts} -pedantic)
-endif()
+# if (NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
+#     set(compile_opts ${compile_opts} -pedantic)
+# endif()
 
 set(definitions
   CPPHTTPLIB_OPENSSL_SUPPORT=1

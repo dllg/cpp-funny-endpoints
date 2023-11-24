@@ -2,24 +2,12 @@
 
 #include "spdlog/spdlog.h"
 
+#include <drogon/drogon.h>
+
 using namespace funny;
 
 bool ServerImpl::Init()
 {
-    _app.reset(new uWS::App());
-    if (_app->constructorFailed())
-    {
-        return false;
-    }
-
-    _app->any("/*", [](auto *res, auto *req) {
-        (void)req;
-        res->cork([res]() {
-            res->writeStatus("404 NOT FOUND")
-              ->writeHeader("Content-Type", "application/json")
-              ->end("{\"message\":\"not found\",\"code\":404}");
-        });
-    });
     return true;
 }
 
@@ -27,24 +15,22 @@ void ServerImpl::Get(const std::string &endpoint, const callback &getCallback)
 {
     _getCallbacks.push_back(getCallback);
     const auto &getcall = _getCallbacks.back();
-    _app->get(endpoint, [getcall](auto *res, auto *req) {
-        (void)req;
-        res->cork([res, getcall]() { res->writeHeader("Content-Type", "application/json")->end(getcall()); });
-    });
+    drogon::app().registerHandler(
+        endpoint,
+        [getcall](const drogon::HttpRequestPtr &,
+           std::function<void(const drogon::HttpResponsePtr &)> &&callback) {
+            auto resp = drogon::HttpResponse::newHttpResponse();
+            resp->setBody(getcall());
+            callback(resp);
+        },
+        {drogon::Get});
 }
 
 void ServerImpl::Run()
 {
-    _app
-      ->listen(_port,
-               [this](auto *listenSocket) {
-                   if (listenSocket)
-                   {
-                       _listenSocket = listenSocket;
-                       spdlog::info("Starting server. Listening on port {}.", _port);
-                   }
-               })
-      .run();
+    spdlog::info("Starting server on {} using port {}.", _host, _port);
+    drogon::app().addListener(_host, _port).run();
+    spdlog::info("Server stopped.");
 }
 
-void ServerImpl::Stop() { us_listen_socket_close(0, _listenSocket); }
+void ServerImpl::Stop() { drogon::app().quit(); }
