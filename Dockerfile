@@ -19,7 +19,11 @@ RUN git clone https://github.com/microsoft/vcpkg.git -n && \
 
 RUN /build/vcpkg/vcpkg install nlohmann-json gtest spdlog drogon cpp-httplib[openssl] argh
 
-COPY . .
+COPY cmake cmake
+COPY console console
+COPY source source
+COPY test test
+COPY CMakeLists.txt CMakeLists.txt
 
 ENV VCPKG_ROOT=/build/vcpkg
 RUN mkdir build && cd build && cmake .. && make
