@@ -3,7 +3,7 @@
 # cpp-funny-endpoints
 Simple C++ application that interacts with different open api's to create text that you can receive on GET endpoints. See [swagger.yml](swagger.yml)
 
-Uses [conan](https://conan.io/) to handle dependencies and [cmake](https://cmake.org/) build system. It uses [nlohmann_json](https://github.com/nlohmann/json) for json, [uwebsockets](https://github.com/uNetworking/uWebSockets) for http server part, [cpr](https://github.com/whoshuu/cpr) for http client part, [spdlog](https://github.com/gabime/spdlog) for logging and [gtest](https://github.com/google/googletest) for testing.
+Uses [vcpkg](https://vcpkg.io/) to handle dependencies and [cmake](https://cmake.org/) build system. It uses [nlohmann_json](https://github.com/nlohmann/json) for json, [drogon](https://drogon.io) for http server part, [cpr](https://github.com/whoshuu/cpr) for http client part, [spdlog](https://github.com/gabime/spdlog) for logging and [gtest](https://github.com/google/googletest) for testing.
 
 ## Testing
 
@@ -11,31 +11,29 @@ Testing is done using [gtest](https://github.com/google/googletest). Testing of 
 
 
 ## Building locally
-### 1. Setup dependencies using Conan
-Make sure you have [conan](https://conan.io/):
-```bash
-pip install conan
+### 1. Setup dependencies using vcpkg
+- Install [vcpkg](https://vcpkg.io/en/getting-started)
 ```
-Also make sure conan have some mirror repositories set:
-```bash
-conan remote add conan-center https://conan.bintray.com
-conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-conan remote add conan-transit https://conan-transit.bintray.com
-conan remote add conan-community https://api.bintray.com/conan/conan-community/conan
-conan remote add conan-camposs https://conan.campar.in.tum.de/api/conan/conan-camposs
-conan remote add wheelfinder https://api.bintray.com/conan/wheelfinder/public-conan
-conan remote add dbely https://api.bintray.com/conan/dbely/conan
-conan remote add picoreti https://api.bintray.com/conan/picoreti/is
-conan remote add is https://api.bintray.com/conan/labviros/is
-conan remote add lasote https://api.bintray.com/conan/lasote/conan-repo
+$ git clone ssh://git@github.com/microsoft/vcpkg
+$ cd vcpkg
+$ ./bootstrap-vcpkg.sh
+```
+
+- Install dependencies
+```
+$ ./vcpkg install nlohmann_json gtest spdlog drogon cpp-httplib
+```
+
+- set VCPKG_ROOT environment variable
+```
+$ export VCPKG_ROOT=/path/to/vcpkg
 ```
 
 Create a build directory if you haven't already and initailize the dependencies:
 ```bash
 mkdir build
 cd build
-conan install .. -s cppstd=17 -s compiler.libcxx=libstdc++11 --build
-cmake .. -G Ninja
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
 cd ..
 ```
 

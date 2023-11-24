@@ -4,10 +4,7 @@ project(funnytests LANGUAGES CXX C)
 
 include(../cmake/opts.cmake)
 
-# ---- Conan setup ----
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-
-conan_basic_setup()
+find_package(GTest CONFIG REQUIRED)
 
 # ---- Create binary ----
 
@@ -16,8 +13,9 @@ file(GLOB sources CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp)
 add_executable(${PROJECT_NAME} ${sources})
 
 target_link_libraries(${PROJECT_NAME}
-  ${CONAN_LIBS}
   libfunny
+  GTest::gmock
+  GTest::gtest
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
