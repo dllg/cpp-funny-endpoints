@@ -28,7 +28,9 @@ void ServerImpl::Get(const std::string &endpoint, const callback &getCallback)
 
 void ServerImpl::Run()
 {
-    drogon::app().addListener("127.0.0.1", _port).run();
+    spdlog::info("Starting server on {} using port {}.", _host, _port);
+    drogon::app().addListener(_host, _port).run();
+    spdlog::info("Server stopped.");
 }
 
 void ServerImpl::Stop() { drogon::app().quit(); }

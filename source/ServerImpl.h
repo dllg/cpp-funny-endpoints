@@ -1,7 +1,5 @@
 #pragma once
 
-#include <libusockets.h>
-
 #include "IServer.h"
 
 namespace funny
@@ -9,7 +7,7 @@ namespace funny
 class ServerImpl final : public IServer
 {
    public:
-    ServerImpl(int port) : _port(port) {}
+    ServerImpl(std::string host, int port) : _host(host), _port(port) {}
     virtual ~ServerImpl() {}
     virtual bool Init() override;
     virtual void Get(const std::string &endpoint, const callback &getCallback) override;
@@ -17,6 +15,7 @@ class ServerImpl final : public IServer
     virtual void Stop() override;
 
    private:
+    std::string _host;
     int _port;
     std::vector<callback> _getCallbacks;
 };

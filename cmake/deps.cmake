@@ -1,11 +1,10 @@
 # add libraries here
 set(dependencies
-  tinyobjloader::tinyobjloader
   argh
+  Drogon::Drogon
+  httplib::httplib
   nlohmann_json::nlohmann_json
   spdlog::spdlog
-  httplib::httplib
-  Drogon::Drogon
 )
 
 foreach (dependency ${dependencies})
